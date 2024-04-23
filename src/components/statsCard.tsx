@@ -1,16 +1,25 @@
 "use client";
-import { getPokemon } from "@/app/utils/fetchPokemon";
+
 import appSelectore from "@/features/appSelectors";
+import { ISats } from "@/features/appTypes";
 import { useAppSelector } from "@/hooks/reduxHooks";
-import React, { useEffect, useState } from "react";
+import { NextFontWithVariable } from "next/dist/compiled/@next/font";
+import React from "react";
+
 interface ISatsCard {
-  fontFamily: any;
-  fontSize: any;
-  backgroundColor: any;
-  fontColor: any;
+  fontFamily: NextFontWithVariable;
+  fontSize: string;
+  backgroundColor: string;
+  fontColor: string;
 }
-const SatsCard: React.FC<ISatsCard> = ({ fontFamily, fontSize, backgroundColor, fontColor }) => {
-  let temp = useAppSelector(appSelectore.getCurrentPokemon);
+
+const SatsCard: React.FC<ISatsCard> = ({
+  fontFamily,
+  fontSize,
+  backgroundColor,
+  fontColor,
+}) => {
+  let satsList = useAppSelector(appSelectore.getCurrentPokemon);
 
   return (
     <div
@@ -21,10 +30,10 @@ const SatsCard: React.FC<ISatsCard> = ({ fontFamily, fontSize, backgroundColor, 
         Stats
       </div>
       <div className='collapse-content'>
-        {temp?.map((items: any, index: number) => (
+        {satsList?.map((sats: ISats, index: number) => (
           <div key={index} className=' text-[18px] uppercase'>
             <p>
-              {items.stat.name} : {items.base_stat}
+              {sats.stat.name} : {sats.base_stat}
             </p>
           </div>
         ))}

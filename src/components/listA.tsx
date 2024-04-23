@@ -8,11 +8,13 @@ import {
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import React, { useState } from "react";
 import PokemonCard from "./PokemonCard";
+import { ListItem, Pokemon } from "@/app/types";
+import { NextFontWithVariable } from "next/dist/compiled/@next/font";
 
 interface IListAProps {
   listOfItems: { name: string; url: string }[];
   backgroundColor: string;
-  fontFamily: any;
+  fontFamily: NextFontWithVariable;
   fontSize: string;
   fontColor: string;
 }
@@ -24,11 +26,12 @@ const ListA: React.FC<IListAProps> = ({
   fontSize,
   fontColor,
 }) => {
-  const [state, setState] = useState({} as any);
+  const [state, setState] = useState({} as Pokemon);
   const dispatch = useAppDispatch();
+  
   //Getting data on the selected pokémon
   const handleGetData = async (name: any) => {
-    let current_pokemon: any = await getPokemon(name);
+    let current_pokemon: Pokemon = await getPokemon(name);
     setState(current_pokemon);
   };
 
@@ -38,20 +41,22 @@ const ListA: React.FC<IListAProps> = ({
 
   return (
     <div className={`w-[80%] flex justify-center `}>
-      <div className='  w-[100%]  '>
-        {listOfItems.map((item: any, index: number) => (
+      <div className="  w-[100%]  ">
+        {listOfItems.map((item: ListItem, index: number) => (
           <div
             className={`collapse ${backgroundColor} collapse-arrow  mb-5`}
             key={index}
-            onClick={() => handleGetData(item.name)}>
-            <input type='radio' name='my-accordion-1' />
-            <div className='collapse-title text-xl font-medium'>
+            onClick={() => handleGetData(item.name)}
+          >
+            <input type="radio" name="my-accordion-1" />
+            <div className="collapse-title text-xl font-medium">
               <span
-                className={`flex justify-center ${fontFamily.variable} font-sans  ${fontColor} ${fontSize} uppercase font-bold`}>
+                className={`flex justify-center ${fontFamily.variable} font-sans  ${fontColor} ${fontSize} uppercase font-bold`}
+              >
                 {item.name}
               </span>
             </div>
-            <div className='collapse-content'>
+            <div className="collapse-content">
               {Object.values(state).length ? (
                 <PokemonCard currentPokemon={state} fontFamily={fontFamily} />
               ) : (
